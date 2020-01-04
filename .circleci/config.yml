@@ -1,13 +1,19 @@
+# iOS CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/ios-migrating-from-1-2/ for more details
+#
 version: 2
 jobs:
-  build-and-test:
-    macos:
-      xcode: "10.2.1"
-    environment: 
-      FL_OUTPUT_DIR: ouput
-    steps:
-      - checkout 
+  build:
 
+    # Specify the Xcode version to use
+    macos:
+      xcode: "8.3.3"
+
+    steps:
+      - checkout
+    
+      # Build the app and run tests
       - run:
           name: Build and run tests
           command: fastlane scan
@@ -19,11 +25,10 @@ jobs:
       # and save the same XML files under test-results folder
       # in the Artifacts tab
       - store_test_results:
-          path: output/scan
+          path: test_output/report.xml
       - store_artifacts:
-          path: output
-
-  workflows:
-      build-and-test:
-        jobs: 
-          - build-and-test
+          path: /tmp/test-results
+          destination: scan-test-results
+      - store_artifacts:
+          path: ~/Library/Logs/scan
+          destination: scan-logs
