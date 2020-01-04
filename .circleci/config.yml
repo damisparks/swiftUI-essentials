@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - checkout
-    
+
       # Build the app and run tests
       - run:
           name: Build and run tests
